@@ -5,3 +5,11 @@ before_script:
 unit:
   script:
     - make test
+
+production:
+  type: deploy
+  script:
+    - echo "deploying as $(whoami)"
+    - cd /vagrant && ansible-playbook -i hosts plays/deploy.yml
+  only:
+    - master
