@@ -1,0 +1,7 @@
+before_script:
+  - go version
+  - which go
+
+unit:
+  script:
+    - make test
