@@ -1,0 +1,26 @@
+---
+- hosts: all
+  connection: local
+  vars:
+    apphome: /home/gitlab-runner/apps/gapp
+
+  tasks:
+    - name: ensure base folder structure is sound
+      file: dest={{ item }} state=directory owner=gitlab-runner group=gitlab-runner
+      with_items:
+        - /home/gitlab-runner/apps
+
+    - name: ensure git repo is cloned
+      git: repo=http://localhost/devopsense/gapp.git dest={{ apphome }}
+
+    - name: ensure app folder has proper permissions
+      file: dest={{ apphome }} owner=gitlab-runner group=gitlab-runner
+
+    - name: ensure app service unit file is present
+      copy: src=gapp.unit.service dest=/etc/systemd/system/gapp.service owner=gitlab-runner group=deploy
+
+    - name: ensure gapp service starts on boot
+      command: sudo systemctl enable gapp
+
+    - name: ensure gapp is running
+      command: sudo systemctl restart gapp

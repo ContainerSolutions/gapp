@@ -1,0 +1,8 @@
+[Unit]
+Description=Dummy Web App
+
+[Service]
+ExecStart=/bin/sh -c "cd /home/gitlab-runner/apps/gapp && make run"
+
+[Install]
+WantedBy=multi-user.target

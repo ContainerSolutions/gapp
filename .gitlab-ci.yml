@@ -9,7 +9,6 @@ unit:
 production:
   type: deploy
   script:
-    - echo "deploying as $(whoami)"
-    - cd /vagrant && ansible-playbook -i hosts plays/deploy.yml
+    - cd infra/ && ansible-playbook -i hosts deploy.yml
   only:
     - master
